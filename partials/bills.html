@@ -37,7 +37,7 @@
 		<input type="number" class="form-control" id="txtPrecio" placeholder="Precio" ng-model="NewBill.current.precio">
 	</div>
 </div>
-<a class="btn btn-success">Agregar a la lista</a>
+<a class="btn btn-success" ng-click="AddToCart()">Agregar a la lista</a>
 
 <table class="table table-hover">
 	<thead>
@@ -58,24 +58,24 @@
 	</tbody>
 	<tfoot>
 		<tr>
-			<td colspan="3"></td>
+			<td colspan="2"></td>
 			<th>Subtotal</th>
-			<td>{{CalculaSubtotal() || 0 | currency:"₡"}}</td>
+			<td>{{CalculaSubtotal() | currency:"₡"}}</td>
 		</tr>
 		<tr>
-			<td colspan="3"></td>
+			<td colspan="2"></td>
 			<th>13% impuestos</th>
-			<td>{{CalculaImpuestos() || 0 | currency:"₡"}}</td>
+			<td>{{CalculaImpuestos() | currency:"₡"}}</td>
 		</tr>
 		<tr>
-			<td colspan="3"></td>
+			<td colspan="2"></td>
 			<th>10% descuento</th>
-			<td>{{CalculaDescuento() || 0 | currency:"₡"}}</td>
+			<td>{{CalculaDescuento() | currency:"₡"}}</td>
 		</tr>
 		<tr>
-			<td colspan="3"></td>
+			<td colspan="2"></td>
 			<th>TOTAL</th>
-			<td>{{CalculaTotal() || 0 | currency:"₡"}}</td>
+			<td>{{CalculaTotal() | currency:"₡"}}</td>
 		</tr>
 	</tfoot>
 </table>

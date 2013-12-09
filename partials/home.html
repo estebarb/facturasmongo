@@ -1,17 +1,16 @@
 <div class="row">
-	<div class="col-lg-6 col-md-6">
-		<a href="#/newbill" class="btn btn-success col-lg-5 col-md-5">Crear factura</a><br>
-		<a href="#/bills" class="btn btn-primary col-lg-5 col-md-5">Ver facturas</a>
+	<div class="col-sm-4 col-md-4">
+		<a href="#" ng-click="LoadFacturas()" class="btn btn-warning col-lg-5 col-md-5">Recargar datos</a><br>
 	</div>
-	<div class="col-lg-6 col-md-6">
-		<div class="panel panel-primary">
+	<div class="col-sm-8 col-md-8">
+		<div class="panel panel-success">
 			<div class="panel-heading">Balance general</div>
 			<div class="panel-body">
 				<ul>
-					<li>Total de facturas: {{general.TotalFacturas | currency:"₡"}}
+					<li>Total de facturas: {{general.TotalFacturas}}
 					<li>Total pagado: {{general.TotalPagado | currency:"₡"}}
 					<li>Total adeudado: {{general.TotalAdeudado | currency:"₡"}}
-					<li>Total facturado: {{genera.TotalFacturado | currency:"₡"}}
+					<li>Total facturado: {{general.TotalFacturado | currency:"₡"}}
 				</ul>
 			</div>
 		</div>
@@ -31,11 +30,12 @@
 		</thead>
 		<tbody>
 		<tr ng-repeat="f in ListaFacturas">
-				<td>{{f.Emisor}}</td>
-				<td>{{f.Cliente}}</td>
-				<td>{{f.Fecha}}</td>
-				<td>{{f.Pagado}}</td>
-				<td>{{f.Total}}</td>
+				<td>{{f.emisor}}</td>
+				<td>{{f.cliente}}</td>
+				<td>{{f.fecha}}</td>
+				<td>{{f.TotalPagado}}</td>
+				<td>{{f.TotalFactura}}</td>
+				<td><a href="#view" ng-click="AbrirFactura(f._id.$id)">Abrir</a></td>
 		</tr>
 		</tbody>
 	</table>

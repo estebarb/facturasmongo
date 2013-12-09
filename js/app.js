@@ -37,14 +37,15 @@ facturasApp.controller('mainController',
 					var lst = [];
 					// Actualiza los valores de las facturas
 					for(var i = 0; i < x.length; i++){
-						if(x[i].productos != undefined){
+						/*
+						 if(x[i].productos != undefined){
 							x[i].TotalFactura = x[i].productos.map(
 								function(e){
 									return e.precio * e.cantidad;
 								}).reduce(sumador, 0);
 						} else {
 							x[i].TotalFactura = 0;
-						}
+						}*/
 
 						if(x[i].pagos != undefined){
 							x[i].TotalPagado = x[i].pagos.map(
@@ -90,7 +91,7 @@ facturasApp.controller('mainController',
 			};
 
 			$scope.CalculaTotal = function(){
-				return $scope.CalculaSubtotal
+				return $scope.CalculaSubtotal()
 					+ $scope.CalculaImpuestos()
 					- $scope.CalculaDescuento();
 			};
@@ -111,7 +112,11 @@ facturasApp.controller('mainController',
 					"emisor": f.emisor,
 					"cliente": f.cliente,
 					"fecha": f.fecha,
-					"productos": f.productos
+					"productos": f.productos,
+					"TotalFactura": $scope.CalculaTotal(),
+					"TotalImpuestos": $scope.CalculaImpuestos(),
+					"TotalDescuento": $scope.CalculaImpuestos(),
+					"TotalSubtotal": $scope.CalculaSubtotal()
 				};
 				Factura.save({},factura);
 				// Limpia la factura actual
@@ -128,12 +133,13 @@ facturasApp.controller('mainController',
 					"cliente": f.cliente,
 					"fecha": f.fecha,
 					"productos": f.productos,
+					"TotalFactura": $scope.CalculaTotal(),
+					"TotalImpuestos": $scope.CalculaImpuestos(),
+					"TotalDescuento": $scope.CalculaImpuestos(),
+					"TotalSubtotal": $scope.CalculaSubtotal(),
 					"pagos": [
 					{"fecha": f.fecha,
-						"pago": f.productos.map(
-								function(e){
-									return e.precio * e.cantidad;
-								}).reduce(sumador, 0)}]
+						"pago": $scope.CalculaTotal()}]
 				};
 				Factura.save({},factura);
 				// Limpia la factura actual

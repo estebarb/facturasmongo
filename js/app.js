@@ -7,11 +7,11 @@ facturasApp.controller('mainController',
 			sumador = function(v, acc){
 				return v + acc;
 			};
-sumaCampo = function(arreglo, campo){
-	return arreglo.map(function(v){
-		return v[campo];
-	}).reduce(sumador, 0);
-}
+			sumaCampo = function(arreglo, campo){
+				return arreglo.map(function(v){
+					return v[campo];
+				}).reduce(sumador, 0);
+			}
 
 			// Esto es para el sistema de facturas nuevas
 			var now = Date();
@@ -22,8 +22,8 @@ sumaCampo = function(arreglo, campo){
 	"fecha": now,
 	"current": {
 		"descripcion": "",
-	"cantidad": 0,
-	"precio": 0
+"cantidad": 0,
+"precio": 0
 	},
 	"productos": []
 				};
@@ -38,19 +38,19 @@ sumaCampo = function(arreglo, campo){
 					// Actualiza los valores de las facturas
 					for(var i = 0; i < x.length; i++){
 						if(x[i].productos != undefined){
-						x[i].TotalFactura = x[i].productos.map(
-							function(e){
-								return e.precio * e.cantidad;
-							}).reduce(sumador, 0);
+							x[i].TotalFactura = x[i].productos.map(
+								function(e){
+									return e.precio * e.cantidad;
+								}).reduce(sumador, 0);
 						} else {
 							x[i].TotalFactura = 0;
 						}
 
 						if(x[i].pagos != undefined){
-						x[i].TotalPagado = x[i].pagos.map(
-							function(e){
-								return e.pago;
-							}).reduce(sumador, 0);
+							x[i].TotalPagado = x[i].pagos.map(
+								function(e){
+									return e.pago;
+								}).reduce(sumador, 0);
 						} else {
 							x[i].TotalPagado = 0;
 						}
@@ -102,7 +102,45 @@ sumaCampo = function(arreglo, campo){
 					"cantidad": 0,
 					"precio": 0
 				};
-			}
+			};
+
+			// Añade una factura al sistema...
+			$scope.AddBill = function(){
+				var f = $scope.NewBill;
+				var factura = {
+					"emisor": f.emisor,
+					"cliente": f.cliente,
+					"fecha": f.fecha,
+					"productos": f.productos
+				};
+				Factura.save({},factura);
+				// Limpia la factura actual
+				$scope.ResetNewBill();
+				// Y recarga los datos:
+				$scope.LoadFacturas();
+			};
+
+			// Añade una factura al sistema...
+			$scope.AddBillAndPay = function(){
+				var f = $scope.NewBill;
+				var factura = {
+					"emisor": f.emisor,
+					"cliente": f.cliente,
+					"fecha": f.fecha,
+					"productos": f.productos,
+					"pagos": [
+					{"fecha": f.fecha,
+						"pago": f.productos.map(
+								function(e){
+									return e.precio * e.cantidad;
+								}).reduce(sumador, 0)}]
+				};
+				Factura.save({},factura);
+				// Limpia la factura actual
+				$scope.ResetNewBill();
+				// Y recarga los datos:
+				$scope.LoadFacturas();
+			};
 
 			// Esto es necesario para poder cambiar de páginas
 			$scope.isActive = function (viewLocation) {
@@ -114,10 +152,4 @@ sumaCampo = function(arreglo, campo){
 				return active;
 			};
 
-			Factura.get({"id": "52a4f6f98e50816c298b4567"}, function(x){
-				console.log(x);
-			});
-			Factura.query({}, function(x){
-				console.log(x);
-			});
 		}]);

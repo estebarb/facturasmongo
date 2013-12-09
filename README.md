@@ -30,4 +30,4 @@ El API tiene un diseño REST, y contiene los siguientes comandos:
 Esta API es llamanda con Javascript, utilizando las facilidades que ofrece
 _Angular.js_.
 
-Las llamadas a la API se realizan desde 
+Las llamadas a la API se realizan desde _js/app.js_. El API en PHP está en el archivo _api/index.php_.

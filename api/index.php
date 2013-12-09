@@ -19,9 +19,13 @@ $app->get('/bill/{id}', function($id) use ($app, $FacturasDB){
 });
 
 // Modifica los datos de una factura (básicamente agrega pagos)
-$app->put('/bill/{id}', function($id) use ($app){
-	$data = array($id => "soy una factura");
-	return new Response(json_encode($data),
+$app->put('/bill/{id}', function(Request $request, $id) use ($app, $FacturasDB){
+	$data = json_decode($request->getContent(), true);
+	$FacturasDB->update(
+		array('_id' => new MongoId($id)),
+		array('$push' => array("pagos" => $data))
+	);
+	return new Response('Pago realizado',
 		200,
 		array('Content-Type' => 'application/json'));
 });

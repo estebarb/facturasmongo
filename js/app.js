@@ -38,16 +38,16 @@ facturasApp.controller('mainController',
 					// Actualiza los valores de las facturas
 					for(var i = 0; i < x.length; i++){
 						/*
-						 if(x[i].productos != undefined){
-							x[i].TotalFactura = x[i].productos.map(
-								function(e){
-									return e.precio * e.cantidad;
-								}).reduce(sumador, 0);
-						} else {
-							x[i].TotalFactura = 0;
-						}*/
+						   if(x[i].productos != undefined){
+						   x[i].TotalFactura = x[i].productos.map(
+						   function(e){
+						   return e.precio * e.cantidad;
+						   }).reduce(sumador, 0);
+						   } else {
+						   x[i].TotalFactura = 0;
+						   }*/
 
-						if(x[i].pagos != undefined){
+						if(x[i].pagos !== undefined){
 							x[i].TotalPagado = x[i].pagos.map(
 								function(e){
 									return e.pago;
@@ -147,6 +147,49 @@ facturasApp.controller('mainController',
 				// Y recarga los datos:
 				$scope.LoadFacturas();
 			};
+
+			// Esto es para ver y abrir facturas:
+			$scope.AbrirFactura = function(id){
+				Factura.get({"id":id}, function(val){
+					if(val.pagos !== undefined){
+						val.TotalPagado = val.pagos.map(
+							function(e){
+								return e.pago;
+							}).reduce(sumador, 0);
+					} else {
+						val.TotalPagado = 0;
+					}
+					$scope.ShowBill = val;
+					$scope.NewPayment = 0;
+				});
+			};
+
+			// Y esto es para agregar un pago
+			$scope.Abonar = function(monto){
+				var idActual = $scope.ShowBill._id.$id;
+				var now = Date();
+				//var monto = $scope.NewPayment;
+				Factura.pay({"id": idActual},
+						{"pago": monto,
+							"fecha": now
+						}, function(){
+							// La operación fue exitosa
+							// Es necesario actualizar el estado del sistema:
+							$scope.LoadFacturas();
+							$scope.NewPayment = 0;
+							$scope.AbrirFactura(idActual);
+						});
+			}
+
+			// Con esto se anula la factura actual
+			// ¡¡¡ ESTA OPERACIÓN NO ES REVERSIBLE !!!
+			$scope.Anular = function(){
+				var idActual = $scope.ShowBill._id.$id;
+				Factura.remove({"id":idActual}, function(){
+					$scope.LoadFacturas();
+					$scope.AbrirFactura(idActual);
+				});
+			}
 
 			// Esto es necesario para poder cambiar de páginas
 			$scope.isActive = function (viewLocation) {

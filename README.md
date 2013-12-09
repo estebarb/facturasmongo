@@ -31,3 +31,20 @@ Esta API es llamanda con Javascript, utilizando las facilidades que ofrece
 _Angular.js_.
 
 Las llamadas a la API se realizan desde _js/app.js_. El API en PHP está en el archivo _api/index.php_.
+
+Correr el programa
+------------------
+Para correr el programa es necesario tener instalado:
+* php5
+* mongodb
+* Mongo Client
+* php5-dev
+
+Suponiendo que está instalado php5 (y el comando php) se corre lo siguiente:
+
+    cd api
+    php composer.phar install
+
+Posteriormente el programa se puede correr ejecutando desde la raiz:
+
+    php -S 0.0.0.0:8000

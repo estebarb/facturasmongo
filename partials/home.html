@@ -26,6 +26,7 @@
 				<th>Pagado</th>
 				<th>Total</th>
 				<th></th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -36,6 +37,9 @@
 				<td>{{f.TotalPagado | currency:"₡"}}</td>
 				<td>{{f.TotalFactura | currency:"₡"}}</td>
 				<td><a href="#view" ng-click="AbrirFactura(f._id.$id)">Abrir</a></td>
+				<td><span class="label label-danger" ng-show="f.anulada">Anulada</span>
+						<span class="label label-success" ng-show="f.TotalPagado >= f.TotalFactura">Pagada</span>
+				</td>
 		</tr>
 		</tbody>
 	</table>

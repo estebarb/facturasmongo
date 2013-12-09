@@ -1,8 +1,9 @@
 // Módulo
-var facturasApp = angular.module('facturasApp', []);
+var facturasApp = angular.module('facturasApp', ['facturasServices']);
 
 //Controlador
-facturasApp.controller('mainController', function($scope, $location){
+facturasApp.controller('mainController',
+		['$scope', '$location', 'Factura', function($scope, $location, Factura){
 	// Esto es para el sistema de facturas nuevas
 	var now = Date();
 	$scope.ResetNewBill = function(){
@@ -19,6 +20,12 @@ facturasApp.controller('mainController', function($scope, $location){
 		};
 	};
 	$scope.ResetNewBill();
+
+	$scope.ListaFacturas = [];
+	$scope.LoadFacturas = function(){
+//		Factura.
+	};
+	
 
 	sumador = function(v, acc){
 		return v + acc;
@@ -67,4 +74,11 @@ facturasApp.controller('mainController', function($scope, $location){
 				}
 		return active;
 	};
-});
+
+	Factura.get({"id": "52a4f6f98e50816c298b4567"}, function(x){
+		console.log(x);
+	});
+	Factura.query({}, function(x){
+		console.log(x);
+	});
+}]);

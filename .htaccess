@@ -1,5 +1,10 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ api/index.php [L]
-</IfModule>
+FallbackResource /api/index.php
+
+#<IfModule mod_rewrite.c>
+#    Options -MultiViews
+#
+#    RewriteEngine On
+##    RewriteBase /var/www/api
+#    RewriteCond %{REQUEST_FILENAME} !-f
+#    RewriteRule ^ api/index.php [QSA,L]
+#</IfModule>
